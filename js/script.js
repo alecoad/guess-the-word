@@ -20,3 +20,17 @@ const playAgainButton = document.querySelector("play-again");
 const word = "magnolia";
 
 // FUNCTION TO ADD PLACEHOLDERS FOR EACH LETTER
+const addPlaceholders = function (word) {
+    // Declare array to hold letters
+    letterArray = [];
+    // Iterate through letters in the word, adding a dot to the array each time
+    for (let letter of word) {
+        letterArray.push("●");
+    }
+    // Convert array to string of dots and set as the paragraph's inner text
+    wordInProgress.innerText = letterArray.join("");
+};
+
+addPlaceholders(word);
+
+// ADD AN EVENT LISTENER FOR THE BUTTON
