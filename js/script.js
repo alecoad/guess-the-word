@@ -34,3 +34,9 @@ const addPlaceholders = function (word) {
 addPlaceholders(word);
 
 // ADD AN EVENT LISTENER FOR THE BUTTON
+guessButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    let guess = letterGuess.value;
+    console.log(guess);
+    letterGuess.value = "";
+});
