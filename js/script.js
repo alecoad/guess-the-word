@@ -96,26 +96,20 @@ const updateWord = function (letterArray) {
     const wordUpper = word.toUpperCase();
     // Split the word string into an array
     const wordArray = wordUpper.split("");
-    console.log(wordArray);
-    // Here's the array with just dots again, soon to be modified
-    let progressArray = [];
-    for (let letter of word) {
-        progressArray.push("●")
-    }
-    // Iterate through guessed letters
-    for (let guess of letterArray) {
-        // If the guessed letter is in the word,
-        if (wordArray.includes(guess)) {
-            console.log("found one");
-            // find the index of the letter,
-            let index = wordArray.indexOf(guess);
-            // and replace it in the word-in-progress array
-            progressArray.splice(index, 1, guess);
-            console.log(progressArray);
+    // Empty array used to populate with correct letters or dots
+    const progressArray = [];
+    // Iterate through letters in the word array
+    for (let letter of wordArray) {
+        console.log(letter);
+        // If the letter has been guessed,
+        if (guessedLetters.includes(letter)) {
+            // add it to the word-in-progress array
+            progressArray.push(letter);
+        }
+        // Otherwise, keep the dot in the word-in-progress array
+        else {
+            progressArray.push("●")
         }
     }
-
-    // THIS DOESN'T WORK FOR WORDS WITH REPEATED LETTERS YET!!
-
     wordInProgress.innerText = progressArray.join("");
 }
