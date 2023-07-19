@@ -100,7 +100,6 @@ const updateWord = function (letterArray) {
     const progressArray = [];
     // Iterate through letters in the word array
     for (let letter of wordArray) {
-        console.log(letter);
         // If the letter has been guessed,
         if (guessedLetters.includes(letter)) {
             // add it to the word-in-progress array
@@ -111,5 +110,29 @@ const updateWord = function (letterArray) {
             progressArray.push("●")
         }
     }
+    // Join the letters of the word-in-progress array and display
     wordInProgress.innerText = progressArray.join("");
-}
+
+    // Check is the player has won
+    completeMatch();
+};
+
+// FUNCTION TO CHECK IF THE PLAYER WON
+const completeMatch = function () {
+    // Change the word to an uppercase array (again...)
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    // Boolean variable to determine a complete match, true until it's not :)
+    let winner = true;
+    // Iterate through the word array to see if all letters have been guessed 
+    for (let letter of wordArray) {
+        if (!guessedLetters.includes(letter)) {
+            winner = false;
+        }
+    }
+    // If winner stays true, tell the player
+    if (winner === true) {
+        message.classList.add("win");
+        message.innerHTML = "<p class='highlight'>You guessed correct the word! Congrats!</p>"
+    }
+};
