@@ -39,14 +39,12 @@ addPlaceholders(word);
 guessButton.addEventListener("click", function (e) {
     e.preventDefault();
     const guess = letterGuess.value;
-    console.log(guess);
     letterGuess.value = "";
 
     // VALIDATE INPUT
     message.innerText = "";
     const checkedLetter = checkInput(guess);
-    console.log(checkedLetter);
-    if (checkedLetter != null) {
+    if (checkedLetter) {
         makeGuess(checkedLetter);
     }    
 });
@@ -76,6 +74,48 @@ const makeGuess = function (letter) {
     }
     else {
         guessedLetters.push(upperCaseLetter);
+        showLetters();
+        updateWord(guessedLetters);
     }
     console.log(guessedLetters);
 };
+
+// FUNCTION TO SHOW THE GUESSED LETTERS
+const showLetters = function () {
+    guessedLettersElement.innerHTML = "";
+    for (let letter of guessedLetters) {
+        const listItem = document.createElement("li");
+        listItem.innerText = letter;
+        guessedLettersElement.append(listItem);
+    }
+};
+
+// FUNCTION TO UPDATE THE WORD IN PROGRESS
+const updateWord = function (letterArray) {
+    // Change the word to uppercase
+    const wordUpper = word.toUpperCase();
+    // Split the word string into an array
+    const wordArray = wordUpper.split("");
+    console.log(wordArray);
+    // Here's the array with just dots again, soon to be modified
+    let progressArray = [];
+    for (let letter of word) {
+        progressArray.push("●")
+    }
+    // Iterate through guessed letters
+    for (let guess of letterArray) {
+        // If the guessed letter is in the word,
+        if (wordArray.includes(guess)) {
+            console.log("found one");
+            // find the index of the letter,
+            let index = wordArray.indexOf(guess);
+            // and replace it in the word-in-progress array
+            progressArray.splice(index, 1, guess);
+            console.log(progressArray);
+        }
+    }
+
+    // THIS DOESN'T WORK FOR WORDS WITH REPEATED LETTERS YET!!
+
+    wordInProgress.innerText = progressArray.join("");
+}
