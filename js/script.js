@@ -101,7 +101,7 @@ const showLetters = function () {
     // Start with an empty list
     guessedLettersElement.innerHTML = "";
     // Create "li" for each guess and add it to the unordered list
-    for (let letter of guessedLetters) {
+    for (const letter of guessedLetters) {
         const listItem = document.createElement("li");
         listItem.innerText = letter;
         guessedLettersElement.append(listItem);
@@ -117,7 +117,7 @@ const updateWord = function (letterArray) {
     // Empty array used to populate with correct letters or dots
     const progressArray = [];
     // Iterate through letters in the word array
-    for (let letter of wordArray) {
+    for (const letter of wordArray) {
         // If the letter has been guessed,
         if (guessedLetters.includes(letter)) {
             // add it to the word-in-progress array
@@ -143,7 +143,7 @@ const completeMatch = function () {
     // Boolean variable to determine a complete match, true until it's not :)
     let winner = true;
     // Iterate through the word array to see if all letters have been guessed 
-    for (let letter of wordArray) {
+    for (const letter of wordArray) {
         if (!guessedLetters.includes(letter)) {
             winner = false;
         }
@@ -154,3 +154,5 @@ const completeMatch = function () {
         message.innerHTML = "<p class='highlight'>You guessed correct the word! Congrats!</p>"
     }
 };
+
+//
