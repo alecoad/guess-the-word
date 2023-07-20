@@ -16,11 +16,30 @@ const message = document.querySelector(".message");
 // The hidden button that will appear prompting the player to play again.
 const playAgainButton = document.querySelector("play-again");
 
-const word = "magnolia";
+let word = "magnolia";
 // Array to hold player guesses
 const guessedLetters = [];
 // Count remaining guesses
 let remainingGuesses = 8;
+
+// ASYNC FUNCTION
+const getWord = async function () {
+    // Fetch data from a text file of 823 words
+    const res = await fetch('https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt');
+    const words = await res.text();
+    // Transform the data into an array of words, using \n as the delimiter
+    const wordArray = words.split("\n");
+    // Variable to pull random index from word array
+    const randomIndex = Math.floor(Math.random() * wordArray.length);
+    // Use the random index to pull a word from the array, with any whitespace trimmed
+    word = wordArray[randomIndex].trim();
+    // Add placeholders for each letter of the word
+    console.log(word);
+    addPlaceholders(word);
+};
+
+// Get a word to start the game!
+getWord();
 
 // FUNCTION TO ADD PLACEHOLDERS FOR EACH LETTER
 const addPlaceholders = function (word) {
@@ -33,8 +52,6 @@ const addPlaceholders = function (word) {
     // Convert array to string of dots and set as the paragraph's inner text
     wordInProgress.innerText = letterArray.join("");
 };
-
-addPlaceholders(word);
 
 // ADD AN EVENT LISTENER FOR THE BUTTON
 guessButton.addEventListener("click", function (e) {
@@ -147,16 +164,16 @@ const countGuesses = function (guess) {
         message.innerText = `Good guess! The word has the letter ${guess}.`;
     }
     else {
-        message.innerText = `Bumskeez, the word does not have the letter ${guess}.`;
+        message.innerText = `Sorry, the word has no ${guess}.`;
         // Take a guess away
         remainingGuesses -= 1;
     }
     // Update the message accordingly based on the number of remaining guesses
     if (remainingGuesses === 0) {
-        message.innerText = `Game over. The word was ${wordUpper}.`;
+        message.innerText = `Game over! The word was <span class="highlight">${wordUpper}</span>.`;
     }
     else if (remainingGuesses === 1) {
-        remainingGuessesSpan.innerText = "1 guess";
+        remainingGuessesSpan.innerText = `${remainingGuesses} guess`;
     }
     else {
         remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
