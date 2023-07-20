@@ -8,7 +8,7 @@ const letterGuess = document.querySelector(".letter");
 // The empty paragraph where the word in progress will appear.
 const wordInProgress = document.querySelector(".word-in-progress");
 // The paragraph where the remaining guesses will display.
-const remainingGuesses = document.querySelector(".remaining");
+const remainingGuessesElement = document.querySelector(".remaining");
 // The span inside the paragraph where the remaining guesses will display.
 const remainingGuessesSpan = document.querySelector("span");
 // The empty paragraph where messages will appear when the player guesses a letter.
@@ -17,9 +17,10 @@ const message = document.querySelector(".message");
 const playAgainButton = document.querySelector("play-again");
 
 const word = "magnolia";
-
 // Array to hold player guesses
 const guessedLetters = [];
+// Count remaining guesses
+let remainingGuesses = 8;
 
 // FUNCTION TO ADD PLACEHOLDERS FOR EACH LETTER
 const addPlaceholders = function (word) {
@@ -90,6 +91,8 @@ const makeGuess = function (letter) {
         guessedLetters.push(upperCaseLetter);
         // Display unique letters only
         showLetters();
+        // Update the remaining guesses based on the guessed letter
+        countGuesses(upperCaseLetter);
         // Update the word dots with correctly guessed letters
         updateWord(guessedLetters);
     }
@@ -135,6 +138,31 @@ const updateWord = function (letterArray) {
     completeMatch();
 };
 
+// FUNCTION TO COUNT GUESSES REMAINING
+const countGuesses = function (guess) {
+    // Change the word to uppercase
+    const wordUpper = word.toUpperCase();
+    // Let the player know whether or not the word contains the guessed letter
+    if (wordUpper.includes(guess)) {
+        message.innerText = `Good guess! The word has the letter ${guess}.`;
+    }
+    else {
+        message.innerText = `Bumskeez, the word does not have the letter ${guess}.`;
+        // Take a guess away
+        remainingGuesses -= 1;
+    }
+    // Update the message accordingly based on the number of remaining guesses
+    if (remainingGuesses === 0) {
+        message.innerText = `Game over. The word was ${wordUpper}.`;
+    }
+    else if (remainingGuesses === 1) {
+        remainingGuessesSpan.innerText = "1 guess";
+    }
+    else {
+        remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+    }
+}
+
 // FUNCTION TO CHECK IF THE PLAYER WON
 const completeMatch = function () {
     // Change the word to an uppercase array (again...)
@@ -155,4 +183,3 @@ const completeMatch = function () {
     }
 };
 
-//
