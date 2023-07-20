@@ -37,27 +37,38 @@ addPlaceholders(word);
 
 // ADD AN EVENT LISTENER FOR THE BUTTON
 guessButton.addEventListener("click", function (e) {
+    // Prevent the default behavior of click, submit form, reload
     e.preventDefault();
+    // Variable to capture the value of the input
     const guess = letterGuess.value;
+    // Empty the value of the input
     letterGuess.value = "";
 
     // VALIDATE INPUT
+    // Empty message after each button click
     message.innerText = "";
+    // Check the input
     const checkedLetter = checkInput(guess);
+    // If checkInput() returns a letter,
     if (checkedLetter) {
+        // add it to the array of guessed letters
         makeGuess(checkedLetter);
     }    
 });
 
 // FUNCTION TO CHECK PLAYER'S INPUT
 const checkInput = function (input) {
+    // Regular expression to ensure the player inputs a letter
     const acceptedLetter = /[a-zA-Z]/
+    // Display message if the input is empty
     if (input === "") {
         message.innerText = "Please enter a letter.";
     }
+    // Display message if the input is more than one letter
     else if (input.length > 1) {
         message.innerText = "Please enter a single letter.";
     }
+    // Display message if the input is not a letter
     else if (!input.match(acceptedLetter)) {
         message.innerText = "Please enter a letter from A to Z.";
     }
@@ -68,13 +79,18 @@ const checkInput = function (input) {
 
 // FUNCTION TO CAPTURE INPUT
 const makeGuess = function (letter) {
+    // Keep letters uppercase
     const upperCaseLetter = letter.toUpperCase();
+    // Display a message if the letter was already guessed
     if (guessedLetters.includes(upperCaseLetter)) {
         message.innerText = "You already guessed that letter. Try again.";
     }
     else {
+        // Add the letter to the array of guessed letters
         guessedLetters.push(upperCaseLetter);
+        // Display unique letters only
         showLetters();
+        // Update the word dots with correctly guessed letters
         updateWord(guessedLetters);
     }
     console.log(guessedLetters);
@@ -82,7 +98,9 @@ const makeGuess = function (letter) {
 
 // FUNCTION TO SHOW THE GUESSED LETTERS
 const showLetters = function () {
+    // Start with an empty list
     guessedLettersElement.innerHTML = "";
+    // Create "li" for each guess and add it to the unordered list
     for (let letter of guessedLetters) {
         const listItem = document.createElement("li");
         listItem.innerText = letter;
