@@ -14,7 +14,7 @@ const remainingGuessesSpan = document.querySelector("span");
 // The empty paragraph where messages will appear when the player guesses a letter.
 const message = document.querySelector(".message");
 // The hidden button that will appear prompting the player to play again.
-const playAgainButton = document.querySelector("play-again");
+const playAgainButton = document.querySelector(".play-again");
 
 let word = "magnolia";
 // Array to hold player guesses
@@ -53,7 +53,7 @@ const addPlaceholders = function (word) {
     wordInProgress.innerText = letterArray.join("");
 };
 
-// ADD AN EVENT LISTENER FOR THE BUTTON
+// EVENT LISTENER FOR THE BUTTON
 guessButton.addEventListener("click", function (e) {
     // Prevent the default behavior of click, submit form, reload
     e.preventDefault();
@@ -170,7 +170,9 @@ const countGuesses = function (guess) {
     }
     // Update the message accordingly based on the number of remaining guesses
     if (remainingGuesses === 0) {
-        message.innerText = `Game over! The word was <span class="highlight">${wordUpper}</span>.`;
+        message.innerHTML = `Game over! The word was <span class="highlight">${wordUpper}</span>.`;
+        // Try again?
+        startOver();
     }
     else if (remainingGuesses === 1) {
         remainingGuessesSpan.innerText = `${remainingGuesses} guess`;
@@ -193,10 +195,46 @@ const completeMatch = function () {
             winner = false;
         }
     }
-    // If winner stays true, tell the player
+    // If winner stays true,
     if (winner === true) {
+        // tell the player,
         message.classList.add("win");
-        message.innerHTML = "<p class='highlight'>You guessed correct the word! Congrats!</p>"
+        message.innerHTML = "<p class='highlight'>You guessed correct the word! Congrats!</p>";
+        // and start the game over
+        startOver();
     }
 };
 
+// FUNCTION TO HIDE AND SHOW ELEMENTS
+const startOver = function () {
+    // Hide the guess button, the remaining guesses paragraph, and the guessed letters
+    guessButton.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    // Show the button to play again
+    playAgainButton.classList.remove("hide");
+};
+
+// EVENT LISTENER FOR THE PLAY AGAIN BUTTON
+playAgainButton.addEventListener("click", function () {
+    // Remove the win class from the message and empty the text
+    message.classList.remove("win");
+    message.innerText = "";
+    // Empty the unordered list of guessed letters
+    guessedLettersElement.innerText = "";
+    // Reset number of guesses allowed
+    remainingGuesses = 8;
+    // Empty the array of guessed letters and reset the remaining guesses span
+    guessedLetters.length = 0;
+    remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+    // Show these again:
+    guessButton.classList.remove("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    // And remove the play button
+    playAgainButton.classList.add("hide");
+    // Get a new word!
+    getWord();
+});
+
+// TODO: AUTOFOCUS INPUT BOX, DISABLE INPUT BOX AFTER WINNING/LOSING, BETTER SPACING
