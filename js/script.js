@@ -61,6 +61,8 @@ guessButton.addEventListener("click", function (e) {
     const guess = letterGuess.value;
     // Empty the value of the input
     letterGuess.value = "";
+    // and focus back on the input box
+    letterGuess.focus();
 
     // VALIDATE INPUT
     // Empty message after each button click
@@ -233,6 +235,8 @@ playAgainButton.addEventListener("click", function () {
     guessedLettersElement.classList.remove("hide");
     // And remove the play button
     playAgainButton.classList.add("hide");
+    // Refocus on the input box
+    letterGuess.focus();
     // Get a new word!
     getWord();
 });
