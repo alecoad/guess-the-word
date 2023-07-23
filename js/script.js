@@ -153,7 +153,7 @@ const updateWord = function (letterArray) {
     // Join the letters of the word-in-progress array and display
     wordInProgress.innerText = progressArray.join("");
 
-    // Check is the player has won
+    // Check if the player has won
     completeMatch();
 };
 
@@ -173,6 +173,8 @@ const countGuesses = function (guess) {
     // Update the message accordingly based on the number of remaining guesses
     if (remainingGuesses === 0) {
         message.innerHTML = `Game over! The word was <span class="highlight">${wordUpper}</span>.`;
+        // Keep the player from entering more letters
+        guessButton.disabled = true;
         // Try again?
         startOver();
     }
@@ -202,6 +204,8 @@ const completeMatch = function () {
         // tell the player,
         message.classList.add("win");
         message.innerHTML = "<p class='highlight'>You guessed correct the word! Congrats!</p>";
+        // keep them from entering more letters,
+        guessButton.disabled = true;
         // and start the game over
         startOver();
     }
@@ -219,6 +223,8 @@ const startOver = function () {
 
 // EVENT LISTENER FOR THE PLAY AGAIN BUTTON
 playAgainButton.addEventListener("click", function () {
+    // Ensure the guess button is re-enabled
+    guessButton.disabled = false;
     // Remove the win class from the message and empty the text
     message.classList.remove("win");
     message.innerText = "";
@@ -229,6 +235,8 @@ playAgainButton.addEventListener("click", function () {
     // Empty the array of guessed letters and reset the remaining guesses span
     guessedLetters.length = 0;
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+    // Empty the input box
+    letterGuess.value = "";
     // Show these again:
     guessButton.classList.remove("hide");
     remainingGuessesElement.classList.remove("hide");
@@ -241,4 +249,4 @@ playAgainButton.addEventListener("click", function () {
     getWord();
 });
 
-// TODO: AUTOFOCUS INPUT BOX, DISABLE INPUT BOX AFTER WINNING/LOSING, BETTER SPACING
+// TODO: BETTER SPACING
