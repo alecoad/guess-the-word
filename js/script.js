@@ -227,7 +227,7 @@ playAgainButton.addEventListener("click", function () {
     guessButton.disabled = false;
     // Remove the win class from the message and empty the text
     message.classList.remove("win");
-    message.innerText = "";
+    message.innerText = "Guess any letter to begin...";
     // Empty the unordered list of guessed letters
     guessedLettersElement.innerText = "";
     // Reset number of guesses allowed
